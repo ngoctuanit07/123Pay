@@ -1,0 +1,20 @@
+<?php
+// Retrieve order
+$_order = new Mage_Sales_Model_Order();
+$orderId = Mage::getSingleton('checkout/session')->getLastRealOrderId();
+$_order->loadByIncrementId($orderId);
+if($_POST)
+{
+    $pg123pay_master=new P123paymaster_Pg123paymaster_Model_Standard();
+    $pg123pay_master->createOder123Pay();
+}
+?>
+<?php
+?>
+<form onclick name="pg123paymasterform" method="post" action="<?php echo Mage::getSingleton('pg123paymaster/redirect'); ?>">
+	<input type="hidden" name="orderid" value="<?php echo $orderId; ?>">
+    <input type="hidden" name="grandtotal" value="<?php echo $_order->getBaseGrandTotal(); ?>">
+</form>
+<script type="text/javascript">    
+document.pg123paymasterform.submit();
+</script>
